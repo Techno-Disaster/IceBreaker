@@ -94,33 +94,52 @@ class _MyHomePageState extends State<MyHomePage> {
                   flipOnTouch: false,
                   direction: FlipDirection.HORIZONTAL,
                   front: Container(
-                    height: 100,
-                    width: 100,
+                    height: 300,
+                    width: 300,
                     child: RaisedButton(
                       onPressed: () {
                         canceltimer = true;
                         cardKey.currentState.toggleCard();
                         hi = cardKey.currentState;
                       },
-                      child: Text(
-                        data[i]["name"],
+                      child: Container(
+                        child: Image.network(
+                          data[i]["url"],
+                        ),
                       ),
                     ),
                   ),
                   back: Container(
-                      height: 100,
-                      width: 100,
-                      child: RaisedButton(
-                        onPressed: () => cardKey.currentState.toggleCard(),
-                        child: Text(
-                          data[i]["age"],
+                    height: 300,
+                    width: 300,
+                    child: RaisedButton(
+                      onPressed: () => cardKey.currentState.toggleCard(),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "This ia a " + data[i]["name"],
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "It's a " + data[i]["type"],
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Just so you know they are " +
+                                  data[i]["sidenote"],
+                            ),
+                          ],
                         ),
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 170,
                 ),
-                Text(showtimer),
+                Text("Time Left: " + showtimer + " seconds"),
                 SizedBox(
                   height: 70,
                 ),
@@ -169,19 +188,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 RaisedButton(
                   onPressed: () {
-                    print(hi);
-
-                    cardKey.currentState.toggleCard();
-                    print(score);
-                    startTimer();
-                    i++;
-                    if (i == 5) {
+                    if (i == 4) {
                       Navigator.pushReplacement(
                         context,
                         new MaterialPageRoute(
                           builder: (context) => ResultScreen(score: score),
                         ),
                       );
+                    } else {
+                      print(hi);
+
+                      cardKey.currentState.toggleCard();
+                      print(score);
+                      startTimer();
+                      i++;
                     }
                   },
                   child: Text("Next"),

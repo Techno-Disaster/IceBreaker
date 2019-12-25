@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ResultScreen extends StatefulWidget {
-  int score;
+  final score;
   ResultScreen({this.score});
 
   @override
@@ -9,7 +9,7 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
-  int score;
+  final score;
   _ResultScreenState(this.score);
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,8 @@ class _ResultScreenState extends State<ResultScreen> {
       ),
       body: Container(
         child: Center(
-          child: Text("Your score is " + 
-            score.toString() + "/5",
+          child: Text(
+            "Your score is " + score.toString() + "/5",
           ),
         ),
       ),

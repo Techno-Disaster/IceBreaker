@@ -1,238 +1,32 @@
 [
     {
-        "name": "Jayesh",
-        "age": "17"
+        "name": "Eagle",
+        "type": "carnivore",
+        "sidenote": "not really that friendly",
+        "url": "https://i.picsum.photos/id/1024/300/300.jpg"
     },
     {
-        "name": "test",
-        "age": "12"
+        "name": "Dog",
+        "type": "carnivore",
+        "sidenote": "very friendly",
+        "url": "https://i.picsum.photos/id/1025/300/300.jpg"
     },
     {
-        "name": "test2",
-        "age": "13"
+        "name": "Bear",
+        "type": "carnivore",
+        "sidenote": "not really that friendly",
+        "url": "https://i.picsum.photos/id/1020/300/300.jpg"
     },
     {
-        "name": "test3",
-        "age": "14"
+        "name": "Deer",
+        "type": "herbivore",
+        "sidenote": "kinda friendly",
+        "url": "https://i.picsum.photos/id/1003/300/300.jpg"
     },
     {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
-    },
-    {
-        "name": "test4",
-        "age": "16"
+        "name": "Snake",
+        "type": "scavenger",
+        "sidenote": "not really that friendly",
+        "url": "https://i.picsum.photos/id/935/300/300.jpg"
     }
 ]
