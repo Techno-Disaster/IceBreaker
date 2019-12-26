@@ -28,6 +28,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var onpressedwrong;
+  var onpressedcorrect;
+  var showanswer = false;
+  int score = 0;
+  var hi;
+  int i = 0;
   bool canceltimer = false;
 
   @override
@@ -65,11 +71,23 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  int score = 0;
-  var hi;
-  int i = 0;
   @override
   Widget build(BuildContext context) {
+    if (timer < 1) {
+      setState(() {
+        showanswer = true;
+      });
+    }
+    if (showanswer) {
+      onpressedwrong = () {
+        score--;
+      };
+    }
+    if (showanswer) {
+      onpressedcorrect = () {
+        score++;
+      };
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -137,11 +155,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 SizedBox(
-                  height: 170,
+                  height: 80,
                 ),
                 Text("Time Left: " + showtimer + " seconds"),
                 SizedBox(
                   height: 70,
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    showanswer = true;
+                    cardKey.currentState.toggleCard();
+                    canceltimer = true;
+                    setState(() {
+                      onpressedwrong = true;
+                      onpressedcorrect = true;
+                    });
+                  },
+                  child: Text("SHOW ANSWER"),
+                ),
+                SizedBox(
+                  height: 30,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -149,11 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Container(
                       child: RaisedButton(
                         color: Colors.red,
-                        onPressed: () {
-                          cardKey.currentState.toggleCard();
-                          score--;
-                          canceltimer = true;
-                        },
+                        onPressed: onpressedwrong,
                         child: Text(
                           "Wrong",
                           style: TextStyle(color: Colors.white),
@@ -168,11 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Container(
                       child: RaisedButton(
                         color: Colors.green,
-                        onPressed: () {
-                          cardKey.currentState.toggleCard();
-                          score++;
-                          canceltimer = true;
-                        },
+                        onPressed: onpressedcorrect,
                         child: Text(
                           "Correct",
                           style: TextStyle(color: Colors.white),
@@ -184,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
                 SizedBox(
-                  height: 70,
+                  height: 50,
                 ),
                 RaisedButton(
                   onPressed: () {
@@ -197,6 +222,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     } else {
                       print(hi);
+                      setState(() {
+                        showanswer = false;
+                      });
 
                       cardKey.currentState.toggleCard();
                       print(score);
