@@ -57,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
             if (timer < 1) {
               t.cancel();
               cardKey.currentState.toggleCard();
+              showanswer = true;
             } else if (canceltimer == true) {
               t.cancel();
             } else {
@@ -209,15 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 RaisedButton(
                   onPressed: () {
-                    if (i == 3) {
-                      i = j - 1;
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   new MaterialPageRoute(
-                      //     builder: (context) => ResultScreen(score: score),
-                      //   ),
-                      // );
-                    } else if (i == 4) {
+                    if (i == 4) {
                       Navigator.pushReplacement(
                         context,
                         new MaterialPageRoute(
