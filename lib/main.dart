@@ -28,9 +28,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var onpressedwrong;
-  var onpressedcorrect;
   var showanswer = false;
+  int j;
   int score = 0;
   var hi;
   int i = 0;
@@ -73,11 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (timer < 1) {
-      setState(() {
-        showanswer = true;
-      });
-    }
+    var onpressedwrong;
+    var onpressedcorrect;
     if (showanswer) {
       onpressedwrong = () {
         score--;
@@ -213,7 +209,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 RaisedButton(
                   onPressed: () {
-                    if (i == 4) {
+                    if (i == 3) {
+                      i = j - 1;
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   new MaterialPageRoute(
+                      //     builder: (context) => ResultScreen(score: score),
+                      //   ),
+                      // );
+                    } else if (i == 4) {
                       Navigator.pushReplacement(
                         context,
                         new MaterialPageRoute(
