@@ -4,8 +4,40 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:icemate/result.dart';
+import 'dart:io';
+
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart';
 
 void main() => runApp(MyApp());
+
+class Storage {
+  Future<String> get localPath async {
+    final dir = await getApplicationDocumentsDirectory();
+    return dir.path;
+  }
+
+  Future<File> get localFile async {
+    final path = await localPath;
+    return File('$path/db.txt');
+  }
+
+  Future<String> readData() async {
+    try {
+      final file = await localFile;
+      String body = await file.readAsString();
+
+      return body;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  Future<File> writeData(String data) async {
+    final file = await localFile;
+    return file.writeAsString("$data");
+  }
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -16,18 +48,23 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      home: MyHomePage(),
+      home: MyHomePage(
+        storage: Storage(),
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  final Storage storage;
+  MyHomePage({Key key, @required this.storage}) : super(key: key);
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String state;
+  Future<Directory> _appDocDir;
   var showanswer = false;
   int j;
   int score = 0;
@@ -39,6 +76,25 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     startTimer();
     super.initState();
+    widget.storage.readData().then((String value) {
+      setState(() {
+        state = value;
+      });
+    });
+  }
+
+  void updatetext() {
+    widget.storage.readData().then((String value) {
+      setState(() {
+        state = value;
+      });
+    });
+  }
+
+  void getAppDirectory() {
+    setState(() {
+      _appDocDir = getApplicationDocumentsDirectory();
+    });
   }
 
   int timer = 10;
