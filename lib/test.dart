@@ -66,7 +66,6 @@ class TestSceenState extends State<TestScreen> {
     print(fileContent);
     print(fileContent["name"]);
   }
- 
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +96,7 @@ class TestSceenState extends State<TestScreen> {
                 writeToFile(keyInputController.text, valueInputController.text),
           ),
           RaisedButton(
+            child: Text("Go back"),
             onPressed: () {
               Navigator.pop(
                 context,
