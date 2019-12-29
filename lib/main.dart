@@ -4,40 +4,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:icemate/result.dart';
+import 'package:icemate/test.dart';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter/foundation.dart';
 
 void main() => runApp(MyApp());
-
-class Storage {
-  Future<String> get localPath async {
-    final dir = await getApplicationDocumentsDirectory();
-    return dir.path;
-  }
-
-  Future<File> get localFile async {
-    final path = await localPath;
-    return File('$path/db.txt');
-  }
-
-  Future<String> readData() async {
-    try {
-      final file = await localFile;
-      String body = await file.readAsString();
-
-      return body;
-    } catch (e) {
-      return e.toString();
-    }
-  }
-
-  Future<File> writeData(String data) async {
-    final file = await localFile;
-    return file.writeAsString("$data");
-  }
-}
 
 class MyApp extends StatefulWidget {
   @override
@@ -48,54 +20,54 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyHomePage(
-        storage: Storage(),
-      ),
+      home: MyHomePage(),
+      // MyHomePage(
+      //   storage: Storage(),
+      // ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  final Storage storage;
-  MyHomePage({Key key, @required this.storage}) : super(key: key);
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  File jsonFile;
+  Directory dir;
+  String fileName = "cards.json";
+  bool fileExists = false;
+  Map<String, dynamic> fileContent;
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+    getApplicationDocumentsDirectory().then((Directory directory) {
+      dir = directory;
+      jsonFile = new File(dir.path + "/" + fileName);
+      fileExists = jsonFile.existsSync();
+      if (fileExists)
+        this.setState(
+            () => fileContent = json.decode(jsonFile.readAsStringSync()));
+    });
+  }
+
+  void updateinfo() {
+    print(fileContent["name"]);
+    if (fileExists)
+      this.setState(
+          () => fileContent = json.decode(jsonFile.readAsStringSync()));
+  }
+
   String state;
-  Future<Directory> _appDocDir;
+  Future<Directory> appDocDir;
   var showanswer = false;
   int j;
   int score = 0;
   var hi;
   int i = 0;
   bool canceltimer = false;
-
-  @override
-  void initState() {
-    startTimer();
-    super.initState();
-    widget.storage.readData().then((String value) {
-      setState(() {
-        state = value;
-      });
-    });
-  }
-
-  void updatetext() {
-    widget.storage.readData().then((String value) {
-      setState(() {
-        state = value;
-      });
-    });
-  }
-
-  void getAppDirectory() {
-    setState(() {
-      _appDocDir = getApplicationDocumentsDirectory();
-    });
-  }
 
   int timer = 10;
   String showtimer = '10';
@@ -175,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                       child: Container(
                         child: Image.network(
-                          data[i]["url"],
+                          fileContent["url"],
                         ),
                       ),
                     ),
@@ -190,16 +162,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              "This ia a " + data[i]["name"],
+                              "This is " + fileContent["name"],
                             ),
                             SizedBox(height: 10),
                             Text(
-                              "It's a " + data[i]["type"],
+                              "It's a " + fileContent["type"],
                             ),
                             SizedBox(height: 10),
                             Text(
-                              "Just so you know they are " +
-                                  data[i]["sidenote"],
+                              "Just so you know " + fileContent["sidenote"],
                             ),
                           ],
                         ),
@@ -261,9 +232,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 50,
-                ),
                 RaisedButton(
                   onPressed: () {
                     if (i == 4) {
@@ -286,7 +254,30 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                   },
                   child: Text("Next"),
-                )
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                      child: Text("Add Card"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => TestScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    RaisedButton(
+                      child: Text("Refresh"),
+                      onPressed: () {
+                        updateinfo();
+                        startTimer();
+                      },
+                    )
+                  ],
+                ),
               ],
             );
           },
