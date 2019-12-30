@@ -20,10 +20,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: MyHomePage(),
-      // MyHomePage(
-      //   storage: Storage(),
-      // ),
     );
   }
 }
@@ -53,11 +51,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void updateinfo() {
+  Future<Null> updateinfo() {
     print(fileContent["name"]);
     if (fileExists)
       this.setState(
           () => fileContent = json.decode(jsonFile.readAsStringSync()));
+    return null;
   }
 
   String state;
@@ -114,173 +113,175 @@ class _MyHomePageState extends State<MyHomePage> {
       };
     }
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (context) => TestScreen(),
+            ),
+          );
+        },
+      ),
       appBar: AppBar(
+        actions: <Widget>[
+          new IconButton(
+              icon: new Icon(Icons.refresh),
+              tooltip: 'Refresh Cards',
+              onPressed: () {
+                updateinfo();
+                startTimer();
+              }),
+        ],
         title: Text(
           "IceBreaker",
         ),
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
-      body: Center(
-        child: FutureBuilder(
-          future: DefaultAssetBundle.of(context).loadString('lib/data.json'),
-          builder: (context, snapshot) {
-            var data = json.decode(
-              snapshot.data.toString(),
-            );
-            // print(data);
-            return Column(
+      body: RefreshIndicator(
+        onRefresh: updateinfo,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            FlipCard(
+              key: cardKey,
+              flipOnTouch: false,
+              direction: FlipDirection.HORIZONTAL,
+              front: Container(
+                height: 300,
+                width: 300,
+                child: RaisedButton(
+                  onPressed: () {
+                    canceltimer = true;
+                    cardKey.currentState.toggleCard();
+                    hi = cardKey.currentState;
+                  },
+                  child: Container(
+                    child: Image.network(
+                      fileContent["url"],
+                    ),
+                  ),
+                ),
+              ),
+              back: Container(
+                height: 300,
+                width: 300,
+                child: RaisedButton(
+                  onPressed: () => cardKey.currentState.toggleCard(),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "This is " + fileContent["name"],
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "It's a " + fileContent["type"],
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Just so you know " + fileContent["sidenote"],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 80,
+            ),
+            Text("Time Left: " + showtimer + " seconds"),
+            SizedBox(
+              height: 70,
+            ),
+            RaisedButton(
+              onPressed: () {
+                showanswer = true;
+                cardKey.currentState.toggleCard();
+                canceltimer = true;
+                setState(() {
+                  onpressedwrong = true;
+                  onpressedcorrect = true;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(56, 15, 56, 15),
+                child: Text("Check Answer"),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                FlipCard(
-                  key: cardKey,
-                  flipOnTouch: false,
-                  direction: FlipDirection.HORIZONTAL,
-                  front: Container(
-                    height: 300,
-                    width: 300,
+                if (showanswer)
+                  Container(
                     child: RaisedButton(
-                      onPressed: () {
-                        canceltimer = true;
-                        cardKey.currentState.toggleCard();
-                        hi = cardKey.currentState;
-                      },
-                      child: Container(
-                        child: Image.network(
-                          fileContent["url"],
-                        ),
+                      color: Colors.red,
+                      onPressed: onpressedwrong,
+                      child: Text(
+                        "Wrong",
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
+                    height: 50,
+                    width: 100,
                   ),
-                  back: Container(
-                    height: 300,
-                    width: 300,
+                SizedBox(
+                  width: 20,
+                ),
+                if (showanswer)
+                  Container(
                     child: RaisedButton(
-                      onPressed: () => cardKey.currentState.toggleCard(),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "This is " + fileContent["name"],
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "It's a " + fileContent["type"],
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "Just so you know " + fileContent["sidenote"],
-                            ),
-                          ],
-                        ),
+                      color: Colors.green,
+                      onPressed: onpressedcorrect,
+                      child: Text(
+                        "Correct",
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
+                    height: 50,
+                    width: 100,
                   ),
-                ),
-                SizedBox(
-                  height: 80,
-                ),
-                Text("Time Left: " + showtimer + " seconds"),
-                SizedBox(
-                  height: 70,
-                ),
-                RaisedButton(
-                  onPressed: () {
-                    showanswer = true;
-                    cardKey.currentState.toggleCard();
-                    canceltimer = true;
-                    setState(() {
-                      onpressedwrong = true;
-                      onpressedcorrect = true;
-                    });
-                  },
-                  child: Text("SHOW ANSWER"),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: RaisedButton(
-                        color: Colors.red,
-                        onPressed: onpressedwrong,
-                        child: Text(
-                          "Wrong",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      height: 50,
-                      width: 100,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      child: RaisedButton(
-                        color: Colors.green,
-                        onPressed: onpressedcorrect,
-                        child: Text(
-                          "Correct",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      height: 50,
-                      width: 100,
-                    ),
-                  ],
-                ),
-                RaisedButton(
-                  onPressed: () {
-                    if (i == 4) {
-                      Navigator.pushReplacement(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => ResultScreen(score: score),
-                        ),
-                      );
-                    } else {
-                      print(hi);
-                      setState(() {
-                        showanswer = false;
-                      });
-
-                      cardKey.currentState.toggleCard();
-                      print(score);
-                      startTimer();
-                      i++;
-                    }
-                  },
-                  child: Text("Next"),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    RaisedButton(
-                      child: Text("Add Card"),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => TestScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                    RaisedButton(
-                      child: Text("Refresh"),
-                      onPressed: () {
-                        updateinfo();
-                        startTimer();
-                      },
-                    )
-                  ],
-                ),
               ],
-            );
-          },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            if (showanswer)
+              RaisedButton(
+                onPressed: () {
+                  if (i == 4) {
+                    Navigator.pushReplacement(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => ResultScreen(score: score),
+                      ),
+                    );
+                  } else {
+                    print(hi);
+                    setState(() {
+                      showanswer = false;
+                    });
+
+                    cardKey.currentState.toggleCard();
+                    print(score);
+                    startTimer();
+                    i++;
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(65, 15, 65, 15),
+                  child: Text("Next Card"),
+                ),
+              ),
+          ],
         ),
       ),
     );
