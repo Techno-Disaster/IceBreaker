@@ -52,7 +52,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<Null> updateinfo() {
+    setState(() {
+      fileContent.values;
+    });
     print(fileContent["name"]);
+
+    for (MapEntry<String, dynamic> entry in fileContent.entries) {
+      print(entry.key); // e.g. pm20
+
+    }
+    print(fileContent.length);
     if (fileExists)
       this.setState(
           () => fileContent = json.decode(jsonFile.readAsStringSync()));
@@ -177,17 +186,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                          "This is " + fileContent["name"],
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "It's a " + fileContent["type"],
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "Just so you know " + fileContent["sidenote"],
-                        ),
+                        Expanded(
+                            child: ListView.builder(
+                                itemCount: fileContent.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  // for (MapEntry<String, dynamic> entry
+                                  //     in fileContent.entries) {
+                                  //   print(entry.key); // e.g. pm20
+
+                                  // }
+                                  print(fileContent.keys.elementAt(index));
+
+                                  return ListTile(
+                                    title: Text(
+                                        fileContent.values.elementAt(index)),
+                                  );
+                                }))
                       ],
                     ),
                   ),
