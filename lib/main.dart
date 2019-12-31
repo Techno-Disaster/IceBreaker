@@ -62,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String state;
   Future<Directory> appDocDir;
   var showanswer = false;
+  var nextcard = false;
   int j;
   int score = 0;
   var hi;
@@ -85,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
               t.cancel();
               cardKey.currentState.toggleCard();
               showanswer = true;
+              nextcard = true;
             } else if (canceltimer == true) {
               t.cancel();
             } else {
@@ -199,21 +201,24 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: 70,
             ),
-            RaisedButton(
-              onPressed: () {
-                showanswer = true;
-                cardKey.currentState.toggleCard();
-                canceltimer = true;
-                setState(() {
-                  onpressedwrong = true;
-                  onpressedcorrect = true;
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(56, 15, 56, 15),
-                child: Text("Check Answer"),
+            if (!nextcard)
+              RaisedButton(
+                onPressed: () {
+                  print(nextcard);
+                  showanswer = true;
+                  cardKey.currentState.toggleCard();
+                  canceltimer = true;
+                  setState(() {
+                    nextcard = true;
+                    onpressedwrong = true;
+                    onpressedcorrect = true;
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(56, 15, 56, 15),
+                  child: Text("Check Answer"),
+                ),
               ),
-            ),
             SizedBox(
               height: 20,
             ),
@@ -268,6 +273,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     print(hi);
                     setState(() {
                       showanswer = false;
+                      nextcard = false;
                     });
 
                     cardKey.currentState.toggleCard();
